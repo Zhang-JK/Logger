@@ -6,6 +6,7 @@ set(CMAKE_PREFIX_PATH "/home/lao_jk/Qt/5.15.1/gcc_64/lib/cmake")
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
+SET(CMAKE_BUILD_TYPE "Release")
 
 set(QT_VERSION 5)
 set(REQUIRED_LIBS Core Widgets SerialPort)
