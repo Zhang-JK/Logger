@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
         qDebug() << "Manufacturer: " << info.manufacturer();
 
         (*m_serial).setPort(info);
+        m_serial->setBaudRate(QSerialPort::Baud115200);
         if ((*m_serial).open(QIODevice::ReadWrite)) break;
     }
     connect(m_serial, &QSerialPort::readyRead, this, &MainWindow::readData);
@@ -70,7 +71,9 @@ void MainWindow::readData() {
             else {
                 temp.append(c);
                 isIdle = true;
-                editConsole(msgHandler.saveMsg(temp));
+                QString ret = msgHandler.saveMsg(temp);
+                if (!ret.isEmpty())
+                    editConsole(ret);
                 decode();
                 temp.clear();
             }
