@@ -23,7 +23,10 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     connect(m_serial, &QSerialPort::readyRead, this, &MainWindow::readData);
 //    qDebug() << "Successfully connected to: " << m_serial->portName();
-    editConsole("Successfully connected to: " + m_serial->portName());
+    if(m_serial->portName().isEmpty())
+        editConsole("PORT OPEN FAIL!\nPlease check connection and restart program");
+    else
+        editConsole("Successfully connected to: " + m_serial->portName());
 
     model_msg = new QStandardItemModel();
     model_state = new QStandardItemModel();
