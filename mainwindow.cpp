@@ -57,6 +57,8 @@ void MainWindow::readData() {
     QByteArray tempData;
     tempData = (*m_serial).read(64);
     ui->textarea->setText(ui->textarea->toPlainText()+tempData);
+    ui->textarea->moveCursor(QTextCursor::End);
+
 
     foreach (const QChar &c, tempData) {
         if(isIdle) {
@@ -83,6 +85,7 @@ void MainWindow::readData() {
 
 void MainWindow::editConsole(QString msg) {
     ui->console->setText(ui->console->toPlainText()+msg+"\n");
+    ui->console->moveCursor(QTextCursor::End);
 }
 
 bool MainWindow::decode() {
@@ -137,6 +140,7 @@ bool MainWindow::decode() {
                 num_state++;
             }
         }
+        ui->table_log->scrollToBottom();
     }
     else {
         model_msg->setItem(num_msg,0,
@@ -145,6 +149,7 @@ bool MainWindow::decode() {
         model_msg->setItem(num_msg,2,
                        new QStandardItem(temp.mid(4, temp.length()-5)));
         num_msg++;
+        ui->table_msg->scrollToBottom();
     }
 
     return true;
