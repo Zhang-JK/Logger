@@ -10,24 +10,13 @@
 
 MainWindow::MainWindow(QWidget *parent) :
         QWidget(parent),
-        ui(new Ui::MainWindow),
-        m_serial(new QSerialPort(this)) {
-    ui->setupUi(this);
-    foreach (const QSerialPortInfo &info, QSerialPortInfo::availablePorts()) {
-        qDebug() << "Name        : " << info.portName();
-        qDebug() << "Description : " << info.description();
-        qDebug() << "Manufacturer: " << info.manufacturer();
+        ui(new Ui::MainWindow)
+        {
 
-        (*m_serial).setPort(info);
-        m_serial->setBaudRate(QSerialPort::Baud115200);
-        if ((*m_serial).open(QIODevice::ReadWrite)) break;
-    }
-    connect(m_serial, &QSerialPort::readyRead, this, &MainWindow::readData);
-//    qDebug() << "Successfully connected to: " << m_serial->portName();
-    if(m_serial->portName().isEmpty())
-        editConsole("PORT OPEN FAIL!\nPlease check connection and restart program");
-    else
-        editConsole("Successfully connected to: " + m_serial->portName());
+    ui->setupUi(this);
+
+    QObject::connect(&rx, &SerialReceiver::consoleUpdate, this, &MainWindow::editConsole);
+    QObject::connect(&rx, &SerialReceiver::rawDataUpdate, this, &MainWindow::editRawData);
 
     model_msg = new QStandardItemModel();
     model_state = new QStandardItemModel();
@@ -46,49 +35,30 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->table_log->horizontalHeader()->resizeSection(1,80);
     ui->table_log->horizontalHeader()->resizeSection(2,150);
     ui->table_log->horizontalHeader()->setStretchLastSection(true);
+
+    if(rx.isConnected())
+        ui->console->setText("Successfully Connected\n");
+    else
+        ui->console->setText("There are NO available ports, started the program as log reader!\n");
+
 }
 
 MainWindow::~MainWindow() {
     delete ui;
-    delete m_serial;
 }
 
-void MainWindow::readData() {
-    QByteArray tempData;
-    tempData = (*m_serial).read(64);
-    ui->textarea->setText(ui->textarea->toPlainText()+tempData);
-    ui->textarea->moveCursor(QTextCursor::End);
-
-
-    foreach (const QChar &c, tempData) {
-        if(isIdle) {
-            if(c==START_CHAR) {
-                temp.append(c);
-                isIdle = false;
-            }
-        }
-        else {
-            if(c==START_CHAR) temp.clear();
-            if(c!=END_CHAR) temp.append(c);
-            else {
-                temp.append(c);
-                isIdle = true;
-                QString ret = msgHandler.saveMsg(temp);
-                if (!ret.isEmpty())
-                    editConsole(ret);
-                decode();
-                temp.clear();
-            }
-        }
-    }
-}
-
-void MainWindow::editConsole(QString msg) {
-    ui->console->setText(ui->console->toPlainText()+msg+"\n");
+void MainWindow::editConsole() {
+    ui->console->setText(ui->console->toPlainText()+rx.getConsole()+"\n");
     ui->console->moveCursor(QTextCursor::End);
 }
 
-bool MainWindow::decode() {
+void MainWindow::editRawData() {
+    ui->textarea->setText(ui->textarea->toPlainText()+rx.getRawData());
+    ui->textarea->moveCursor(QTextCursor::End);
+    decode(rx.getRawData());
+}
+
+bool MainWindow::decode(QString temp) {
     bool isState; int msgLevel;
     if(temp[0] != '&') return false;
 

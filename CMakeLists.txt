@@ -12,7 +12,7 @@ set(QT_VERSION 5)
 set(REQUIRED_LIBS Core Widgets SerialPort)
 set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Widgets Qt5::SerialPort)
 
-add_executable(${PROJECT_NAME} main.cpp mainwindow.cpp mainwindow.h mainwindow.ui MessageHandler.cpp MessageHandler.h)
+add_executable(${PROJECT_NAME} main.cpp main.h mainwindow.cpp mainwindow.h mainwindow.ui MessageHandler.cpp MessageHandler.h SerialReceiver.cpp SerialReceiver.h)
 
 if (NOT CMAKE_PREFIX_PATH)
     message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "

@@ -1,7 +1,3 @@
-//
-// Created by lao_jk on 2021/6/11.
-//
-
 #ifndef LOGGER_MAINWINDOW_H
 #define LOGGER_MAINWINDOW_H
 
@@ -9,7 +5,7 @@
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <QStandardItemModel>
-#include "MessageHandler.h"
+#include "SerialReceiver.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,21 +19,20 @@ public:
 
     ~MainWindow() override;
 
+public slots:
+    void editConsole();
+    void editRawData();
+
 private:
     Ui::MainWindow *ui;
-    QSerialPort *m_serial;
-    bool isIdle = true;
-    QString temp;
-    MessageHandler msgHandler;
     QStandardItemModel* model_msg;
     QStandardItemModel* model_state;
     int num_msg=0;
     int num_state=0;
     QList<QString> stateList;
+    SerialReceiver rx;
 
-    void readData();
-    bool decode();
-    void editConsole(QString msg);
+    bool decode(QString);
 };
 
 
