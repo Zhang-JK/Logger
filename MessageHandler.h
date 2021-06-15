@@ -10,8 +10,8 @@
 #define START_CHAR '&'
 #define END_CHAR '\n'
 #define HEADER_CHAR '-'
-#define SEPARATE_CHAR ':'
-#define STATE_CHAR '.'
+#define SEPARATE_CHAR ';'
+#define STATE_CHAR ':'
 
 /*
  * Message Example:
