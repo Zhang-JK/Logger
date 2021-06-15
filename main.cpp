@@ -1,29 +1,36 @@
-#include <QApplication>
 #include <QDebug>
-
 #include "main.h"
-#include "mainwindow.h"
-
-int main(int argc, char *argv[]) {
-    QApplication app(argc, argv);
 
 #ifdef USE_GUI
+#include <QApplication>
+#include "mainwindow.h"
+#else
+#include <QCoreApplication>
+#include "SerialReceiver.h"
+#endif
+
+int main(int argc, char *argv[]) {
+#ifdef USE_GUI
+    QApplication app(argc, argv);
     MainWindow w;
     w.setWindowTitle("RM2021 Logger");
     w.show();
-#else
-    SerialReceiver rx;
-#endif
-
-#ifdef USE_GUI
     return QApplication::exec();
 #else
+    QCoreApplication app(argc, argv);
+    SerialReceiver rx;
     if(rx.isConnected()) {
-        return QApplication::exec();
         qDebug() << "Started in non-desktop mode";
+        return app.exec();
     }
     else
         qDebug() << "There are NO available ports, program exit :(";
+#endif
+
+#ifdef USE_GUI
+
+#else
+
 #endif
 
 }

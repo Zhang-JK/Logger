@@ -4,7 +4,6 @@
 #include <QtCore>
 #include <QSerialPort>
 #include <QSerialPortInfo>
-#include <QStandardItemModel>
 
 #include "MessageHandler.h"
 #include "main.h"
