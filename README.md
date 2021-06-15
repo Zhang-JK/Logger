@@ -39,6 +39,6 @@ Logs will be stored in the ```log``` folder.
 Each log file is named by its start time
 
 ## TODO List
--[ ] add file reading and reviewing  
--[ ] add graph for state log  
--[ ] auto detect gui interface  
+- [ ] add file reading and reviewing  
+- [ ] add graph for state log  
+- [ ] auto detect gui interface  
