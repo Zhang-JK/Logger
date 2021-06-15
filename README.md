@@ -31,10 +31,14 @@ make
 ./Logger
 ```
 
-## For non-gui version
+## For Non-GUI Version
 Edit ```main.h```, comment the line ```#define USE_GUI``` and re-compile the program
 
 ## Log Info
 Logs will be stored in the ```log``` folder.
 Each log file is named by its start time
 
+## TODO List
+-[ ] add file reading and reviewing
+-[ ] add graph for state log
+-[ ] auto detect gui interface

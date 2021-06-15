@@ -7,7 +7,8 @@
 #include <QDebug>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
+//TODO: file reading
+//TODO: graph for state
 MainWindow::MainWindow(QWidget *parent) :
         QWidget(parent),
         ui(new Ui::MainWindow)

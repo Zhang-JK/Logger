@@ -9,6 +9,7 @@
 #include "SerialReceiver.h"
 #endif
 
+//TODO Add auto detect for GUI interface
 int main(int argc, char *argv[]) {
 #ifdef USE_GUI
     QApplication app(argc, argv);
