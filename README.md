@@ -14,10 +14,14 @@
 ## Set Up Environment
 Run the following lines to config on Linux:
 ```
+#install compilers
 sudo apt-get install build-essential
+#install qt libs
 sudo apt-get install qtbase5-dev
 sudo apt-get install qtdeclarative5-dev
 sudo apt-get install libqt5serialport5-dev
+#enable serial port authority
+sudo usermod -aG dialout <your-user-name>
 ```
 Run the following lines to compile and run the program
 ```
